@@ -99,6 +99,9 @@ def monitor_object_position():
                 # Update the last grabbed status
                 last_grabbed_status[i] = is_grabbed
 
+                # change: to be checked
+                positions[i] = cp.array([current_position['x'], current_position['y'], current_position['z']])
+
 # Handle particle-particle collisions
 def handle_collisions(positions, velocities, masses, radius_particle):
     dist_matrix = cp.linalg.norm(positions[:, cp.newaxis] - positions[cp.newaxis, :], axis=2)
@@ -225,6 +228,7 @@ def check_pos(positions, velocities, outer_box, inner_box):
     z_min_inner, z_max_inner = inner_box['c']
     
     # Create masks for particles outside the outer box or inside the inner box
+    # Rewrite evrything here I don't like it
     outside_mask = (positions[:, 0] > x_max_outer - 0.024) | (positions[:, 0] < x_min_outer + 0.024) | \
                    (positions[:, 1] > y_max_outer) | (positions[:, 1] < y_min_outer ) | \
                    (positions[:, 2] > z_max_outer - 0.03) | (positions[:, 2] < z_min_outer + 0.024)
